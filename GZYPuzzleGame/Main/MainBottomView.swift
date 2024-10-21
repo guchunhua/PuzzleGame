@@ -37,19 +37,17 @@ class MainBottomView: UIView {
         return cycleBtn
     }()
     
-    lazy var resetButton = {
+    lazy var autoButton = {
         let btn = UIButton()
-//        btn.backgroundColor = UIColor.blue
-//        btn.setTitle("重置", for: .normal)
-//        btn.setTitleColor(.white, for: .normal)
-        btn.setImage(UIImage(named: "reset"), for: .normal)
-//        btn.titleLabel?.font = .systemFont(ofSize: 18)
-        btn.addTarget(self, action: #selector(reset), for: .touchUpInside)
+        btn.setImage(UIImage(named: "shuffle"), for: .normal)
+        btn.setImage(UIImage(named: "order"), for: .selected)
+        btn.addTarget(self, action: #selector(automatic(_:)), for: .touchUpInside)
         return btn
     }()
     
     var toggleHitClosure: (()->())?
     var resetClosure: (()->Void)?
+    var automaticClosure: ((Bool)-> Void)?
     
     lazy var hintSwitch = {
         let sw = UISwitch()
@@ -75,7 +73,7 @@ class MainBottomView: UIView {
 
         addSubview(rawImageView)
         addSubview(hintSwitch)
-        addSubview(resetButton)
+        addSubview(autoButton)
         
         rawImageView.snp.makeConstraints { make in
             make.top.bottom.equalTo(self)
@@ -85,10 +83,10 @@ class MainBottomView: UIView {
         
         hintSwitch.snp.makeConstraints { make in
             make.bottom.equalTo(self.snp.centerY).offset(-20)
-            make.centerX.equalTo(resetButton)
+            make.centerX.equalTo(autoButton)
         }
         
-        resetButton.snp.makeConstraints { make in
+        autoButton.snp.makeConstraints { make in
             make.bottom.equalTo(self)
             make.right.equalTo(-30)
             make.width.height.equalTo(44)
@@ -99,8 +97,9 @@ class MainBottomView: UIView {
         toggleHitClosure?()
     }
     
-    @objc func reset() {
-        resetClosure?()
+    @objc func automatic(_ btn: UIButton) {
+        btn.isSelected = !btn.isSelected
+        automaticClosure?(btn.isSelected)
     }
     
     @objc func cycleImage() {

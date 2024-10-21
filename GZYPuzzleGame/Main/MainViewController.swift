@@ -31,6 +31,11 @@ class MainViewController: UIViewController {
         bottomView.resetClosure = { [unowned self] in
             self.resetState()
         }
+        
+        bottomView.automaticClosure = { [unowned self] auto in
+            auto ? self.solvePuzzleAutomatically() : self.resetState()
+        }
+        
         return bottomView
     }()
     
@@ -170,6 +175,7 @@ class MainViewController: UIViewController {
         updateUI() // 子imageView显示随机的图片
         
         headView.stopTimer()
+        bottomView.autoButton.isSelected = false
     }
 }
 
@@ -242,27 +248,10 @@ extension MainViewController {
         return true
     }
     
-//    func solvePuzzleAutomatically() {
-//        var solved = false
-//        while !solved {
-//            for row in 0..<rows {
-//                for col in 0..<cols {
-//                    if puzzleBoard[row * cols + col] != row * cols + col && !(row == rows - 1 && col == cols - 1 && puzzleBoard[row * cols + col] == 0) {
-//                        let targetRow = puzzleBoard[row * cols + col] / cols
-//                        let targetCol = puzzleBoard[row * cols + col] % cols
-//                        if canMove(row: row, col: col) {
-//                            moveTile(row: row, col: col)
-//                            updateUI()
-//                        } else if canMove(row: targetRow, col: targetCol) {
-//                            moveTile(row: targetRow, col: targetCol)
-//                            updateUI()
-//                        }
-//                    }
-//                }
-//            }
-//            solved = isPuzzleSolved()
-//        }
-//    }
+    func solvePuzzleAutomatically() {
+        puzzleBoard = Array(0..<rows * cols)
+        updateUI()
+    }
 
 }
 
