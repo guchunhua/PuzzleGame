@@ -32,8 +32,8 @@ class MainViewController: UIViewController {
             self.resetState()
         }
         
-        bottomView.automaticClosure = { [unowned self] auto in
-            auto ? self.solvePuzzleAutomatically() : self.resetState()
+        bottomView.automaticClosure = { [unowned self] in
+            bottomView.isShuffle ? self.resetState() : self.solvePuzzleAutomatically()
         }
         
         return bottomView
@@ -122,7 +122,7 @@ class MainViewController: UIViewController {
 
                 let index = puzzleBoard[row*cols + col]
 
-                if index == lastIndex {
+                if index == lastIndex && bottomView.isShuffle {
                     childImageView.image = nil
                     label.text = ""
 
@@ -166,6 +166,8 @@ class MainViewController: UIViewController {
     }
     
     func resetState() {
+        bottomView.autoButton.isSelected = false
+
         rows = headView.difficultyView.difficulty.rawValue
         cols = headView.difficultyView.difficulty.rawValue
         
@@ -175,7 +177,6 @@ class MainViewController: UIViewController {
         updateUI() // 子imageView显示随机的图片
         
         headView.stopTimer()
-        bottomView.autoButton.isSelected = false
     }
 }
 
@@ -224,7 +225,7 @@ extension MainViewController {
     }
     
     func canMove(row: Int, col: Int) -> Bool {
-        return (row == blankRow && abs(col - blankCol) == 1) || (col == blankCol && abs(row - blankRow) == 1)
+        return bottomView.isShuffle && ((row == blankRow && abs(col - blankCol) == 1) || (col == blankCol && abs(row - blankRow) == 1))
     }
     
     func moveTile(row: Int, col: Int) {

@@ -41,13 +41,19 @@ class MainBottomView: UIView {
         let btn = UIButton()
         btn.setImage(UIImage(named: "shuffle"), for: .normal)
         btn.setImage(UIImage(named: "order"), for: .selected)
-        btn.addTarget(self, action: #selector(automatic(_:)), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(automatic), for: .touchUpInside)
         return btn
     }()
     
+    var isShuffle: Bool {
+        get {
+            !autoButton.isSelected
+        }
+    }
+    
     var toggleHitClosure: (()->())?
     var resetClosure: (()->Void)?
-    var automaticClosure: ((Bool)-> Void)?
+    var automaticClosure: (()-> Void)?
     
     lazy var hintSwitch = {
         let sw = UISwitch()
@@ -99,7 +105,7 @@ class MainBottomView: UIView {
     
     @objc func automatic(_ btn: UIButton) {
         btn.isSelected = !btn.isSelected
-        automaticClosure?(btn.isSelected)
+        automaticClosure?()
     }
     
     @objc func cycleImage() {
