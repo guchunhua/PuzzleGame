@@ -9,3 +9,5 @@ import Foundation
 import UIKit
 
 let safeArea = UIApplication.shared.windows.first!.safeAreaInsets
+let screenWidth = UIScreen.main.bounds.width
+let screenHeight = UIScreen.main.bounds.height

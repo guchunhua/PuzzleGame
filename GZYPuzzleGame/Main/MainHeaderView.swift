@@ -12,20 +12,20 @@ class MainHeaderView: UIView {
     
     lazy var difficultyView = DifficultyView()
     
-    lazy var heartImageView = {
-        let trashIcon = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold))?.withTintColor(.red, renderingMode: .alwaysOriginal)
-        return UIImageView(image: trashIcon)
-    }()
+//    lazy var heartImageView = {
+//        let trashIcon = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold))?.withTintColor(.red, renderingMode: .alwaysOriginal)
+//        return UIImageView(image: trashIcon)
+//    }()
     
-    lazy var scaleAnimation = {
-        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnimation.fromValue = 1.0
-        scaleAnimation.toValue = 1.2
-        scaleAnimation.duration = 1.8
-        scaleAnimation.autoreverses = true // 自动反向播放动画
-        scaleAnimation.repeatCount = Float.infinity // 无限重复
-        return scaleAnimation
-    }()
+//    lazy var scaleAnimation = {
+//        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
+//        scaleAnimation.fromValue = 1.0
+//        scaleAnimation.toValue = 1.2
+//        scaleAnimation.duration = 1.8
+//        scaleAnimation.autoreverses = true // 自动反向播放动画
+//        scaleAnimation.repeatCount = Float.infinity // 无限重复
+//        return scaleAnimation
+//    }()
     
     var timer: Timer?
     var elapsedSeconds = 0 {
@@ -39,7 +39,7 @@ class MainHeaderView: UIView {
     
     let timeLabel = {
         let lb = UILabel()
-        lb.textAlignment = .right
+        lb.textAlignment = .center
         lb.font = UIFont.boldSystemFont(ofSize: 16)
         lb.text = "00 : 00 : 00"
         return lb
@@ -58,33 +58,22 @@ class MainHeaderView: UIView {
     func setUI() {
         addSubview(difficultyView)
         difficultyView.snp.makeConstraints { make in
-            make.centerY.equalTo(self)
-            make.left.equalTo(20)
-            make.height.equalTo(45)
-//            make.width.equalTo(200)
+            make.centerX.equalTo(self)
+            make.height.equalTo(40)
+            make.bottom.equalTo(-10)
         }
         
         addSubview(timeLabel)
         timeLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(self)
-            make.right.equalTo(-20)
-            make.height.equalTo(45)
+            make.centerX.equalTo(self)
+            make.bottom.equalTo(difficultyView.snp_topMargin).offset(-4)
+            make.height.equalTo(40)
             make.width.equalTo(110)
         }
-        
-       
-        addSubview(heartImageView)
-        heartImageView.snp.makeConstraints { make in
-            make.centerY.equalTo(self)
-            make.right.equalTo(timeLabel.snp_leftMargin).offset(2)
-        }
-        
     }
     
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-        
-        startHeartAnimation()
     }
     
     func stopTimer() {
@@ -92,19 +81,17 @@ class MainHeaderView: UIView {
         timer = nil
         
         elapsedSeconds = 0
-        
-        stopHeartAnimation()
     }
     
     @objc func updateTimer() {
         elapsedSeconds += 1
     }
     
-    func startHeartAnimation() {
-        heartImageView.layer.add(scaleAnimation, forKey: "scaleAnimation")
-    }
-    
-    func stopHeartAnimation() {
-        heartImageView.layer.removeAnimation(forKey: "scaleAnimation")
-    }
+//    func startHeartAnimation() {
+//        heartImageView.layer.add(scaleAnimation, forKey: "scaleAnimation")
+//    }
+//    
+//    func stopHeartAnimation() {
+//        heartImageView.layer.removeAnimation(forKey: "scaleAnimation")
+//    }
 }

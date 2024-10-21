@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     
     lazy var contentView = {
         let view = UIView()
-        view.backgroundColor = UIColor.cyan
+        view.backgroundColor = UIColor(hex: 0xeeeeee)
         return view
     }()
     
@@ -67,11 +67,11 @@ class MainViewController: UIViewController {
     func setUI() {
         
         view.addSubview(headView)
-        headView.backgroundColor = UIColor.init(hex: 0xdddddd)
+        headView.backgroundColor = UIColor.init(hex: 0xf7d7d7)
         headView.snp.makeConstraints {
             $0.left.right.equalTo(0)
-            $0.height.equalTo(100)
-            $0.top.equalTo(80)
+            $0.height.equalTo(safeArea.top + 80)
+            $0.top.equalTo(0)
         }
         
         view.addSubview(contentView)
